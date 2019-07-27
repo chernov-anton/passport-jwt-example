@@ -4,9 +4,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const healthRoutes = require('./routes/index');
-const consentRoutes = require('./routes/users');
+const indexRoutes = require('./routes/index');
 
-router.use('/', healthRoutes);
-router.use('/', consentRoutes);
+router.use('/', indexRoutes);
 module.exports = router;
