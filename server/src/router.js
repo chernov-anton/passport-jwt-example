@@ -4,7 +4,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const indexRoutes = require('./routes/index');
+const authRoute = require('./routes/authRoute');
 
-router.use('/', indexRoutes);
+router.use('/', authRoute);
+
 module.exports = router;
