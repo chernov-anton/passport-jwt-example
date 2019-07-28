@@ -1,7 +1,8 @@
 'use strict';
 
 class User {
-  constructor({email, hashedPassword}) {
+  constructor({id, email, hashedPassword}) {
+    this.id = id;
     this.email = email;
     this.hashedPassword = hashedPassword;
   }

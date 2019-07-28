@@ -32,14 +32,14 @@ class AuthService {
   }
 
   _checkUserPassword(user, password) {
-    if (!user && !user.validPassword(password)) {
+    if (!user || !passwordUtils.isPasswordValid(password, user.hashedPassword)) {
       throw new createError.Unauthorized('Email or password is invalid!');
     }
   }
 
   _checkUserExists(user) {
     if (user) {
-      throw new createError.Forbidden('User already exists!');
+      throw new createError.Conflict('User already exists!');
     }
   }
 }

@@ -1,23 +1,34 @@
 'use strict';
 
+const uuidv4 = require('uuid/v4');
 let users = [];
 
+// add async because it will be always async in real app
 class UserRepository {
-  findByEmail(email) {
+  async findByEmail(email) {
     return users.find(user => user.email === email);
   }
 
-  create(user) {
+  async create(user) {
+    user.id = uuidv4();
     users.push(user);
+
+    return user;
   }
 
-  update(updatedUser) {
+  async update(updatedUser) {
     users = users.map(user => this._replaceUser(user, updatedUser));
+
+    return updatedUser;
+  }
+
+  async delete(id) {
+    users = users.filter(user => user.id === id)
   }
 
   _replaceUser(user, updatedUser) {
-    if (user.email === updatedUser.email) {
-      return updatedUser;
+    if (user.id === updatedUser.id) {
+      return {...user, ...updatedUser};
     }
 
     return user;

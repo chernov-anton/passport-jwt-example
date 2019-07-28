@@ -20,5 +20,4 @@ module.exports = {
     secret: process.env.SECRET_JWT,
     live: process.env.JWT_LIVE
   }
-
 };
