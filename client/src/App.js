@@ -1,9 +1,16 @@
 import React from 'react';
-import Router from './routes'
+import {BrowserRouter} from 'react-router-dom';
+import Routes from './routes';
+import Header from './components/header';
+import Footer from './components/footer';
 
 function App() {
   return (
-    <Router/>
+    <BrowserRouter>
+      <Header/>
+      <Routes/>
+      <Footer/>
+    </BrowserRouter>
   );
 }
 
