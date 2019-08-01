@@ -1,57 +1,66 @@
 import React, {useState} from 'react';
 import {withRouter} from 'react-router-dom';
-import Login from './Login';
+import Register from './Register';
 import authService from 'services/authService';
 import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
 
 const ERROR_MESSAGES = {
-  401: 'Email or password is invalid!',
+  409: 'User already exists!',
   500: 'Something went wrong, please try later.'
 };
 
-function createLoginSubmitHandler({values, setLoading, setError, history}) {
+function createSubmitHandler({values, setLoading, setError, history}) {
   return async (e) => {
     e.preventDefault();
+    if (isValid(values)) {
+      setError('Passwords should match!');
+      return;
+    }
 
     try {
       setLoading(true);
-      await authService.login(values);
-      history.push('/')
+      await authService.register(values);
+      history.push('/login')
     } catch (error) {
       setLoading(false);
       logger.error(error);
-      handleErrors(error, setError)
+      handleErrors(error, setError);
     }
   };
+}
+
+function isValid(values) {
+  return values.password !== values.confirmPassword;
 }
 
 function handleErrors(error, setError) {
   let message = 'Service is unavailable!';
   if (error.response) {
-    message = ERROR_MESSAGES[error.response.status]
+    message = ERROR_MESSAGES[error.response.status];
   }
   setError(message);
 }
 
-function LoginContainer({history}) {
+function RegisterContainer({history}) {
   const [values, handleChange] = useInputsState({
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   return (
-    <Login
+    <Register
       values={values}
       loading={loading}
       error={error}
       handleChange={handleChange}
-      handleSubmit={createLoginSubmitHandler({values, setLoading, setError, history})}
+      handleSubmit={createSubmitHandler({values, setLoading, setError, history})}
     />
   );
 }
 
-export default withRouter(LoginContainer);
+export default withRouter(RegisterContainer);
