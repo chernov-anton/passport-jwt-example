@@ -11,11 +11,11 @@ function Login({handleSubmit, handleChange, values, error, loading}) {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Email</label>
-          <input name="email" value={values.email} onChange={handleChange}/>
+          <input name="email" value={values.email} onChange={handleChange} required/>
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input name="password" value={values.password} onChange={handleChange}/>
+          <input name="password" type="password" value={values.password} onChange={handleChange} required/>
         </div>
         {error && <div>{error}</div>}
         <button type="submit">Login</button>
