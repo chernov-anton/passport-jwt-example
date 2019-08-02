@@ -1,4 +1,5 @@
 import React from 'react';
+import InlineError from 'components/inline-error';
 
 function Login({handleSubmit, handleChange, values, error, loading}) {
   if (loading) {
@@ -17,7 +18,7 @@ function Login({handleSubmit, handleChange, values, error, loading}) {
           <label htmlFor="password">Password</label>
           <input name="password" type="password" value={values.password} onChange={handleChange} required/>
         </div>
-        {error && <div>{error}</div>}
+        {error && <InlineError>{error}</InlineError>}
         <button type="submit">Login</button>
       </form>
     </>

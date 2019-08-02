@@ -1,4 +1,5 @@
 import React from 'react';
+import InlineError from 'components/inline-error';
 
 function Register({handleSubmit, handleChange, values, error, loading}) {
   if (loading) {
@@ -21,7 +22,7 @@ function Register({handleSubmit, handleChange, values, error, loading}) {
           <label htmlFor="password">Confirm password</label>
           <input name="confirmPassword" type="password" value={values.confirmPassword} onChange={handleChange} required/>
         </div>
-        {error && <div>{error}</div>}
+        {error && <InlineError>{error}</InlineError>}
         <button type="submit">Register</button>
       </form>
     </>
