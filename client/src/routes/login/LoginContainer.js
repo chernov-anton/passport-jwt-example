@@ -4,6 +4,7 @@ import Login from './Login';
 import authService from 'services/authService';
 import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
+import {pipe} from 'utils/func';
 
 const ERROR_MESSAGES = {
   401: 'Email or password is invalid!',
@@ -17,11 +18,11 @@ function createLoginSubmitHandler({values, setLoading, setError, history}) {
     try {
       setLoading(true);
       await authService.login(values);
-      history.push('/')
+      history.push('/');
     } catch (error) {
       setLoading(false);
       logger.error(error);
-      handleErrors(error, setError)
+      handleErrors(error, setError);
     }
   };
 }
@@ -29,26 +30,28 @@ function createLoginSubmitHandler({values, setLoading, setError, history}) {
 function handleErrors(error, setError) {
   let message = 'Service is unavailable!';
   if (error.response) {
-    message = ERROR_MESSAGES[error.response.status]
+    message = ERROR_MESSAGES[error.response.status];
   }
   setError(message);
 }
 
 function LoginContainer({history}) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const [values, handleChange] = useInputsState({
     email: '',
     password: ''
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const handleLoginChange = pipe(handleChange, () => setError(''));
 
   return (
     <Login
       values={values}
       loading={loading}
       error={error}
-      handleChange={handleChange}
+      handleChange={handleLoginChange}
       handleSubmit={createLoginSubmitHandler({values, setLoading, setError, history})}
     />
   );

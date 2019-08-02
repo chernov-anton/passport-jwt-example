@@ -4,6 +4,7 @@ import Register from './Register';
 import authService from 'services/authService';
 import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
+import {pipe} from 'utils/func';
 
 const ERROR_MESSAGES = {
   409: 'User already exists!',
@@ -52,12 +53,14 @@ function RegisterContainer({history}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const handleRegisterChange = pipe(handleChange, () => setError(''));
+
   return (
     <Register
       values={values}
       loading={loading}
       error={error}
-      handleChange={handleChange}
+      handleChange={handleRegisterChange}
       handleSubmit={createSubmitHandler({values, setLoading, setError, history})}
     />
   );
