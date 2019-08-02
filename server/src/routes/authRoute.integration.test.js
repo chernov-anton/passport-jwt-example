@@ -4,7 +4,7 @@ const request = require('supertest');
 const faker = require('faker');
 const jwt = require('jsonwebtoken');
 const startApp = require('../appConfig');
-const passwordUtils = require("../utils/passwordUtils");
+const passwordUtils = require('../utils/passwordUtils');
 const {createUser, deleteUser, findUserByEmail} = require('../testHelpers');
 const {JWT} = require('../const');
 

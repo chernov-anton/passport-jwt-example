@@ -9,6 +9,10 @@ class UserRepository {
     return users.find(user => user.email === email);
   }
 
+  async find(id) {
+    return users.find(user => user.id === id);
+  }
+
   async create(user) {
     user.id = uuidv4();
     users.push(user);
