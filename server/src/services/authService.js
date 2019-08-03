@@ -1,14 +1,15 @@
 'use strict';
 
 const createError = require('http-errors');
-const User = require('../models/user');
+const userService = require('./userService');
 const userRepository = require('../repositories/userRepository');
 const jwtUtils = require('../utils/jwtUtils');
 const passwordUtils = require('../utils/passwordUtils');
 
 class AuthService {
-  constructor({userRepository}) {
+  constructor({userRepository, userService}) {
     this.userRepository = userRepository;
+    this.userService = userService;
   }
 
   async login(email, password) {
@@ -26,9 +27,7 @@ class AuthService {
 
     this._checkUserExists(user);
 
-    const hashedPassword = passwordUtils.generateHash(password);
-    const newUser = new User({email, hashedPassword});
-    await this.userRepository.create(newUser);
+    await this.userService.create({email, password});
   }
 
   _checkUserPassword(user, password) {
@@ -44,4 +43,4 @@ class AuthService {
   }
 }
 
-module.exports = new AuthService({userRepository});
+module.exports = new AuthService({userRepository, userService});

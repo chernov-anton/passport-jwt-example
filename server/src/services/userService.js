@@ -1,7 +1,9 @@
 'use strict';
 
+const User = require('../models/user');
 const createError = require('http-errors');
 const userRepository = require('../repositories/userRepository');
+const passwordUtils = require('../utils/passwordUtils');
 
 class UserService {
   constructor({userRepository}) {
@@ -16,6 +18,12 @@ class UserService {
     }
 
     return this._removeSensitiveInfo(user);
+  }
+
+  async create({email, password}) {
+    const hashedPassword = passwordUtils.generateHash(password);
+    const newUser = new User({email, hashedPassword});
+    await this.userRepository.create(newUser);
   }
 
   _removeSensitiveInfo(user) {
