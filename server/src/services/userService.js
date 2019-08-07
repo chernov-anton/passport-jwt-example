@@ -10,7 +10,7 @@ class UserService {
     this.userRepository = userRepository;
   }
 
-  async get(id) {
+  async find(id) {
     const user = await this.userRepository.find(id);
 
     if (!user) {
