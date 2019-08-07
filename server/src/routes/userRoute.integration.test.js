@@ -4,16 +4,18 @@ const request = require('supertest');
 const faker = require('faker');
 const startApp = require('../appConfig');
 const {createUser, deleteUser} = require('../testHelpers');
+const jwtUtils = require('../utils/jwtUtils');
 
 const app = startApp();
 
 describe('GET /users/id', () => {
-  it('return user', async () => {
+  it('return user info', async () => {
     const email = faker.internet.email();
     const password = faker.internet.password();
     const user = await createUser({email, password});
 
     const resp = await request(app).get(`/users/${user.id}`)
+      .set('Authorization', `Bearer ${jwtUtils.signToken(user.id)}`)
       .expect(200);
 
     const {hashedPassword, ...secureUser} = user;
@@ -24,7 +26,14 @@ describe('GET /users/id', () => {
   });
 
   it('return 404 if user doesn\'t exist', async () => {
-    const resp = await request(app).get(`/users/${faker.random.uuid()}`)
+    const id = faker.random.uuid();
+    await request(app).get(`/users/${id}`)
+      .set('Authorization', `Bearer ${jwtUtils.signToken(id)}`)
       .expect(404);
+  });
+
+  it('throw 401 without token', async () => {
+    await request(app).get(`/users/${faker.random.uuid()}`)
+      .expect(401);
   });
 });

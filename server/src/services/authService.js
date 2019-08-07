@@ -17,7 +17,7 @@ class AuthService {
 
     this._checkUserPassword(user, password);
 
-    const token = jwtUtils.generateToken(user.id);
+    const token = jwtUtils.signToken(user.id);
 
     return {token};
   }

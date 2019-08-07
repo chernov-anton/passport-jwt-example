@@ -4,6 +4,8 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const passport = require('passport');
+require('./config/passport');
 
 const router = require('./router');
 
@@ -12,6 +14,7 @@ function startApp() {
 
   app.use(cors());
   app.use(logger('dev'));
+  app.use(passport.initialize());
   app.use(express.json());
   app.use(express.urlencoded({extended: false}));
 

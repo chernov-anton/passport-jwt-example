@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const startApp = require('../appConfig');
 const passwordUtils = require('../utils/passwordUtils');
 const {createUser, deleteUser, findUserByEmail} = require('../testHelpers');
-const {JWT} = require('../const');
+const {JWT} = require('../config');
 
 const app = startApp();
 
