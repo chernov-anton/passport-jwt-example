@@ -1,7 +1,7 @@
 'use strict';
 
 const User = require('../models/user');
-const createError = require('http-errors');
+const httpErrors = require('http-errors');
 const userRepository = require('../repositories/userRepository');
 const passwordUtils = require('../utils/passwordUtils');
 
@@ -14,7 +14,7 @@ class UserService {
     const user = await this.userRepository.find(id);
 
     if (!user) {
-      throw  new createError.NotFound('User not found!');
+      throw  new httpErrors.NotFound('User not found!');
     }
 
     return this._removeSensitiveInfo(user);

@@ -1,6 +1,6 @@
 'use strict';
 
-const createError = require('http-errors');
+const httpErrors = require('http-errors');
 const userService = require('./userService');
 const userRepository = require('../repositories/userRepository');
 const jwtUtils = require('../utils/jwtUtils');
@@ -32,13 +32,13 @@ class AuthService {
 
   _checkUserPassword(user, password) {
     if (!user || !passwordUtils.isPasswordValid(password, user.hashedPassword)) {
-      throw new createError.Unauthorized('Email or password is invalid!');
+      throw new httpErrors.Unauthorized('Email or password is invalid!');
     }
   }
 
   _checkUserExists(user) {
     if (user) {
-      throw new createError.Conflict('User already exists!');
+      throw new httpErrors.Conflict('User already exists!');
     }
   }
 }

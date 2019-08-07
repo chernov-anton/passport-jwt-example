@@ -25,15 +25,32 @@ describe('GET /users/id', () => {
     await deleteUser(email);
   });
 
+  it('throw 401 without token', async () => {
+    await request(app).get(`/users/${faker.random.uuid()}`)
+      .expect(401);
+  });
+
+  it('throw 403 if user gets try to get info about other user', async () => {
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+    const user = await createUser({email, password});
+
+    const otherEmail = faker.internet.email();
+    const otherPassword = faker.internet.password();
+    const otherUser = await createUser({email: otherEmail, password: otherPassword});
+
+    await request(app).get(`/users/${otherUser.id}`)
+      .set('Authorization', `Bearer ${jwtUtils.signToken(user.id)}`)
+      .expect(403);
+
+    await deleteUser(email);
+    await deleteUser(otherEmail);
+  });
+
   it('return 404 if user doesn\'t exist', async () => {
     const id = faker.random.uuid();
     await request(app).get(`/users/${id}`)
       .set('Authorization', `Bearer ${jwtUtils.signToken(id)}`)
       .expect(404);
-  });
-
-  it('throw 401 without token', async () => {
-    await request(app).get(`/users/${faker.random.uuid()}`)
-      .expect(401);
   });
 });

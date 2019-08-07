@@ -27,7 +27,7 @@ class UserRepository {
   }
 
   async delete(id) {
-    users = users.filter(user => user.id === id)
+    users = users.filter(user => !(user.id === id))
   }
 
   _replaceUser(user, updatedUser) {

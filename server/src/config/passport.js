@@ -14,17 +14,17 @@ const opts = {
 
 const strategy = new Strategy(opts, handleStrategy);
 
-async function handleStrategy(jwt_payload, done) {
+async function handleStrategy(jwt_payload, next) {
   try {
     const user = await userService.find(jwt_payload.sub);
 
     if (user) {
-      return done(null, user);
+      return next(null, user);
     } else {
-      return done(null, false);
+      return next(null, false);
     }
   } catch (e) {
-    done(e, false);
+    next(e, false);
   }
 }
 
