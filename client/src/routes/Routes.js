@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import Header from 'components/header';
 import Login from './login';
 import Register from './register';
 import Home from './home';

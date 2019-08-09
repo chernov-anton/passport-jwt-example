@@ -5,19 +5,22 @@ import authService from 'services/authService';
 import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
 import {pipe} from 'utils/func';
+import {useAuthContext} from 'contexts/auth';
 
 const ERROR_MESSAGES = {
   401: 'Email or password is invalid!',
   500: 'Something went wrong, please try later.'
 };
 
-function createLoginSubmitHandler({values, setLoading, setError, history}) {
+function createLoginSubmitHandler({values, setLoading, setError, history, setAuthState}) {
   return async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
       await authService.login(values);
+      const authInfo = authService.getAuthInfo();
+      setAuthState(authInfo);
       history.push('/');
     } catch (error) {
       setLoading(false);
@@ -38,6 +41,7 @@ function handleErrors(error, setError) {
 function LoginContainer({history}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [_, setAuthState] = useAuthContext();
 
   const [values, handleChange] = useInputsState({
     email: '',
@@ -45,6 +49,7 @@ function LoginContainer({history}) {
   });
 
   const handleLoginChange = pipe(handleChange, () => setError(''));
+  const handleSubmit = createLoginSubmitHandler({values, setLoading, setError, history, setAuthState});
 
   return (
     <Login
@@ -52,7 +57,7 @@ function LoginContainer({history}) {
       loading={loading}
       error={error}
       handleChange={handleLoginChange}
-      handleSubmit={createLoginSubmitHandler({values, setLoading, setError, history})}
+      handleSubmit={handleSubmit}
     />
   );
 }
