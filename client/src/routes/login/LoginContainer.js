@@ -41,7 +41,7 @@ function handleErrors(error, setError) {
 function LoginContainer({history}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [_, setAuthState] = useAuthContext();
+  const [, setAuthState] = useAuthContext();
 
   const [values, handleChange] = useInputsState({
     email: '',

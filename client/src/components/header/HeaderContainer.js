@@ -1,20 +1,13 @@
 import React from 'react';
-import {useAuthContext} from 'contexts/auth';
+import {useLogout, useIsLoggedIn} from 'contexts/auth';
 import Header from './Header';
-import authService from 'services/authService';
 
 function HeaderContainer() {
-  const [authState, setAuthState] = useAuthContext();
-  const isUserLoggedIn = Boolean(authState.userId);
-
-  const handleLogout = () => {
-    authService.logout();
-    const authInfo = authService.getAuthInfo();
-    setAuthState({authInfo});
-  };
+  const logout = useLogout();
+  const isUserLoggedIn = useIsLoggedIn();
 
   return (
-    <Header isUserLoggedIn={isUserLoggedIn} handleLogout={handleLogout}/>
+    <Header isUserLoggedIn={isUserLoggedIn} handleLogout={logout}/>
   );
 }
 

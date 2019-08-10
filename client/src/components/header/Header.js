@@ -8,10 +8,13 @@ function Header({isUserLoggedIn, handleLogout}) {
         <div className="row">
           <div className="col-sm-11">
             <Link className="logo" to="/">Home</Link>
-            <Link className="button" to="/login">Login</Link>
-            <Link className="button" to="/register">Register</Link>
+            {!isUserLoggedIn &&
+            <>
+              <Link className="button" to="/login">Login</Link>
+              <Link className="button" to="/register">Register</Link>
+            </>}
           </div>
-          {isUserLoggedIn && <div className="col-sm-1"><a className="button" onClick={handleLogout}>Logout</a></div>}
+          {isUserLoggedIn && <div className="col-sm-1"><button className="button" onClick={handleLogout}>Logout</button></div>}
         </div>
       </div>
 

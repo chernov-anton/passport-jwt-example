@@ -1,3 +1,4 @@
+
 import React from 'react';
 import authService from 'services/authService';
 
@@ -21,4 +22,19 @@ function useAuthContext() {
   return context;
 }
 
-export {AuthProvider, useAuthContext};
+function useLogout() {
+  const [, setAuthState] = useAuthContext(AuthContext);
+
+  return () => {
+    authService.logout();
+    const authInfo = authService.getAuthInfo();
+    setAuthState({authInfo});
+  }
+}
+
+function useIsLoggedIn() {
+  const [authState] = useAuthContext(AuthContext);
+  return Boolean(authState.userId);
+}
+
+export {AuthProvider, useAuthContext, useLogout, useIsLoggedIn};
