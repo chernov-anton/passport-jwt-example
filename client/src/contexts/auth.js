@@ -1,4 +1,3 @@
-
 import React from 'react';
 import authService from 'services/authService';
 
@@ -9,7 +8,7 @@ function AuthProvider({children}) {
   const [state, setState] = React.useState(initialAuthInfo);
   return (
     <AuthContext.Provider value={[state, setState]}>
-        {children}
+      {children}
     </AuthContext.Provider>
   );
 }
@@ -29,7 +28,7 @@ function useLogout() {
     authService.logout();
     const authInfo = authService.getAuthInfo();
     setAuthState({authInfo});
-  }
+  };
 }
 
 function useIsLoggedIn() {

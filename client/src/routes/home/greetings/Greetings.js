@@ -1,7 +1,9 @@
 import React from 'react';
 
-function Greetings() {
-  return <h2>Hello user!</h2>;
+function Greetings({userInfo}) {
+  return (<>
+    <h2>Hello {userInfo.email}!</h2>
+  </>);
 }
 
 export default Greetings;
