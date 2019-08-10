@@ -11,7 +11,7 @@ const ERROR_MESSAGES = {
   500: 'Something went wrong, please try later.'
 };
 
-function createSubmitHandler({values, setLoading, setError, history}) {
+function useSubmitHandler({values, setLoading, setError, history}) {
   return async (e) => {
     e.preventDefault();
     if (isValid(values)) {
@@ -43,25 +43,31 @@ function handleErrors(error, setError) {
   setError(message);
 }
 
-function RegisterContainer({history}) {
+function useRegisterInputState(setError) {
   const [values, handleChange] = useInputsState({
     email: '',
     password: '',
     confirmPassword: ''
   });
 
+  const clearError = () => setError('');
+  const handleRegisterChange = pipe(handleChange, clearError);
+
+  return [values, handleRegisterChange]
+}
+
+function RegisterContainer({history}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const handleRegisterChange = pipe(handleChange, () => setError(''));
+  const [values, handleChange] = useRegisterInputState(setError);
 
   return (
     <Register
       values={values}
       loading={loading}
       error={error}
-      handleChange={handleRegisterChange}
-      handleSubmit={createSubmitHandler({values, setLoading, setError, history})}
+      handleChange={handleChange}
+      handleSubmit={useSubmitHandler({values, setLoading, setError, history})}
     />
   );
 }

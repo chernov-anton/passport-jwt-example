@@ -12,7 +12,8 @@ const ERROR_MESSAGES = {
   500: 'Something went wrong, please try later.'
 };
 
-function createLoginSubmitHandler({values, setLoading, setError, history, setAuthState}) {
+function useSubmitHandler({values, setLoading, setError, history}) {
+  const [, setAuthState] = useAuthContext();
   return async (e) => {
     e.preventDefault();
 
@@ -38,25 +39,30 @@ function handleErrors(error, setError) {
   setError(message);
 }
 
-function LoginContainer({history}) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [, setAuthState] = useAuthContext();
-
+function useLoginInputState(setError) {
   const [values, handleChange] = useInputsState({
     email: '',
     password: ''
   });
 
-  const handleLoginChange = pipe(handleChange, () => setError(''));
-  const handleSubmit = createLoginSubmitHandler({values, setLoading, setError, history, setAuthState});
+  const clearError = () => setError('');
+  const handleLoginChange = pipe(handleChange, clearError);
+
+  return [values, handleLoginChange]
+}
+
+function LoginContainer({history}) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [values, handleChange] = useLoginInputState(setError);
+  const handleSubmit = useSubmitHandler({values, setLoading, setError, history});
 
   return (
     <Login
       values={values}
       loading={loading}
       error={error}
-      handleChange={handleLoginChange}
+      handleChange={handleChange}
       handleSubmit={handleSubmit}
     />
   );
