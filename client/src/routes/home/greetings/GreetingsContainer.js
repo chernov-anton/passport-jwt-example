@@ -14,7 +14,6 @@ function useAsyncUserInfo() {
       setLoading(true);
       setError(false);
       try {
-        console.log('call');
         const userInfo = await userService.get(authInfo.userId);
         setUserInfo(userInfo);
         setLoading(false);

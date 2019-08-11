@@ -1,19 +1,20 @@
 import React, {useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import Login from './Login';
 import authService from 'services/authService';
 import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
 import {pipe} from 'utils/func';
 import {useAuthContext} from 'contexts/auth';
+import {useRouterContext} from 'contexts/router';
 
 const ERROR_MESSAGES = {
   401: 'Email or password is invalid!',
   500: 'Something went wrong, please try later.'
 };
 
-function useSubmitHandler({values, setLoading, setError, history}) {
+function useSubmitHandler({values, setLoading, setError}) {
   const [, setAuthState] = useAuthContext();
+  const {history} = useRouterContext();
   return async (e) => {
     e.preventDefault();
 
@@ -51,11 +52,11 @@ function useLoginInputState(setError) {
   return [values, handleLoginChange]
 }
 
-function LoginContainer({history}) {
+function LoginContainer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [values, handleChange] = useLoginInputState(setError);
-  const handleSubmit = useSubmitHandler({values, setLoading, setError, history});
+  const handleSubmit = useSubmitHandler({values, setLoading, setError});
 
   return (
     <Login
@@ -68,4 +69,4 @@ function LoginContainer({history}) {
   );
 }
 
-export default withRouter(LoginContainer);
+export default LoginContainer;

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import Register from './Register';
 import authService from 'services/authService';
 import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
+import {useRouterContext} from 'contexts/router';
 import {pipe} from 'utils/func';
 
 const ERROR_MESSAGES = {
@@ -11,7 +11,8 @@ const ERROR_MESSAGES = {
   500: 'Something went wrong, please try later.'
 };
 
-function useSubmitHandler({values, setLoading, setError, history}) {
+function useSubmitHandler({values, setLoading, setError}) {
+  const {history} = useRouterContext();
   return async (e) => {
     e.preventDefault();
     if (isValid(values)) {
@@ -22,7 +23,7 @@ function useSubmitHandler({values, setLoading, setError, history}) {
     try {
       setLoading(true);
       await authService.register(values);
-      history.push('/login')
+      history.push('/login');
     } catch (error) {
       setLoading(false);
       logger.error(error);
@@ -53,13 +54,14 @@ function useRegisterInputState(setError) {
   const clearError = () => setError('');
   const handleRegisterChange = pipe(handleChange, clearError);
 
-  return [values, handleRegisterChange]
+  return [values, handleRegisterChange];
 }
 
-function RegisterContainer({history}) {
+function RegisterContainer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [values, handleChange] = useRegisterInputState(setError);
+  const handleSubmit = useSubmitHandler({values, setLoading, setError});
 
   return (
     <Register
@@ -67,9 +69,9 @@ function RegisterContainer({history}) {
       loading={loading}
       error={error}
       handleChange={handleChange}
-      handleSubmit={useSubmitHandler({values, setLoading, setError, history})}
+      handleSubmit={handleSubmit}
     />
   );
 }
 
-export default withRouter(RegisterContainer);
+export default RegisterContainer;
