@@ -13,12 +13,12 @@ function App() {
     <BrowserRouter>
       <RouterProvider>
         <AuthProvider>
-          <div className="app-container">
+          <div className="auth-app">
             <div>
               <Header/>
               <Routes/>
             </div>
-            <Footer/>
+            <Footer className="auth-app__footer"/>
           </div>
         </AuthProvider>
       </RouterProvider>

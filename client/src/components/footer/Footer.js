@@ -1,8 +1,9 @@
 import React from 'react';
+import classnames from 'classnames'
 
-function Footer() {
+function Footer({className}) {
   return (
-    <footer className="sticky">
+    <footer className={classnames('sticky', className)}>
       <p className="doc">© 2019 Anton Chernov </p>
     </footer>
   );
