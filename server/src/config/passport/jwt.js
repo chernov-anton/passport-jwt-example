@@ -2,17 +2,15 @@
 
 const passport = require('passport');
 const {Strategy, ExtractJwt} = require('passport-jwt');
-const userService = require('../services/userService');
-const config = require('../config');
+const userService = require('../../services/userService');
+const config = require('../../config');
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.JWT.secret,
   issuer: config.JWT.issuer,
-  audience: config.JWT.audience,
+  audience: config.JWT.audience
 };
-
-const strategy = new Strategy(opts, handleStrategy);
 
 async function handleStrategy(jwt_payload, next) {
   try {
@@ -28,4 +26,6 @@ async function handleStrategy(jwt_payload, next) {
   }
 }
 
-passport.use('jwt', strategy);
+const strategy = new Strategy(opts, handleStrategy);
+
+module.exports = strategy;

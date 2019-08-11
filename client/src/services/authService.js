@@ -4,12 +4,18 @@ import storageService from './storageService';
 
 class AuthService {
   async login({email, password}) {
-    const resp = await api.post('/login', {email, password});
+    const resp = await api.post('/auth/login', {email, password});
     storageService.setToken(resp.data.token);
   }
 
+  async loginWithGoogle(idToken) {
+    const resp = await api.post('/auth/google', {access_token: idToken});
+    storageService.setToken(resp.data.token);
+    console.log(resp.data.token);
+  }
+
   register({email, password}) {
-    return api.post('/register', {email, password});
+    return api.post('/auth/register', {email, password});
   }
 
   logout() {

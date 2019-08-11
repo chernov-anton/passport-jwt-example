@@ -5,12 +5,12 @@ let users = [];
 
 // add async because it will be always async in real app
 class UserRepository {
-  async findByEmail(email) {
-    return users.find(user => user.email === email);
-  }
-
   async find(id) {
     return users.find(user => user.id === id);
+  }
+
+  async findByEmail(email) {
+    return users.find(user => user.email === email);
   }
 
   async create(user) {

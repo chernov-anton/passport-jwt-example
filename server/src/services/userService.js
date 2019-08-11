@@ -20,10 +20,19 @@ class UserService {
     return this._removeSensitiveInfo(user);
   }
 
+  async findByEmail(email) {
+    return  this.userRepository.findByEmail(email);
+  }
+
   async create({email, password}) {
     const hashedPassword = passwordUtils.generateHash(password);
     const newUser = new User({email, hashedPassword});
-    await this.userRepository.create(newUser);
+    return  this.userRepository.create(newUser);
+  }
+
+  async createGoogle({email, googleId}) {
+    const newUser = new User({email, googleId});
+    return this.userRepository.create(newUser);
   }
 
   _removeSensitiveInfo(user) {

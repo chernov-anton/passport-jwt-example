@@ -13,7 +13,13 @@ function register(req) {
   return authService.register(email, password);
 }
 
+function loginWithGoogle(req) {
+  const {id} = req.user;
+  return authService.loginWithGoogle(id);
+}
+
 module.exports = {
   login: routeUtils.handleResponse(login),
-  register: routeUtils.handleResponse(register)
+  register: routeUtils.handleResponse(register),
+  loginWithGoogle: routeUtils.handleResponse(loginWithGoogle),
 };

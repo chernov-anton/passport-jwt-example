@@ -30,6 +30,12 @@ class AuthService {
     await this.userService.create({email, password});
   }
 
+  async loginWithGoogle(userId) {
+    const token = jwtUtils.signToken(userId);
+
+    return {token};
+  }
+
   _checkUserPassword(user, password) {
     if (!user || !passwordUtils.isPasswordValid(password, user.hashedPassword)) {
       throw new httpErrors.Unauthorized('Email or password is invalid!');
