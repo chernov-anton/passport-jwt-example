@@ -13,6 +13,10 @@ class UserRepository {
     return users.find(user => user.email === email);
   }
 
+  async findByGoogleId(googleId) {
+    return users.find(user => user.googleId === googleId);
+  }
+
   async create(user) {
     user.id = uuidv4();
     users.push(user);

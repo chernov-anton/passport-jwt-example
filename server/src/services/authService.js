@@ -37,7 +37,7 @@ class AuthService {
   }
 
   _checkUserPassword(user, password) {
-    if (!user || !passwordUtils.isPasswordValid(password, user.hashedPassword)) {
+    if (!user || !user.hashedPassword || !passwordUtils.isPasswordValid(password, user.hashedPassword)) {
       throw new httpErrors.Unauthorized('Email or password is invalid!');
     }
   }

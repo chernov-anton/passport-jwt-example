@@ -5,11 +5,10 @@ const userService = require('../../services/userService');
 const config = require('../../config');
 
 const handleGoogleAuth = async (token, refreshToken, profile, done) => {
-  console.log(profile._json);
   try {
     const email = profile._json.email;
     const googleId = profile._json.sub;
-    const user = await userService.findByEmail(profile.email);
+    const user = await userService.findByGoogleId(googleId);
     if (user) {
       return done(null, user);
     } else {

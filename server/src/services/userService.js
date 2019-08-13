@@ -21,16 +21,25 @@ class UserService {
   }
 
   async findByEmail(email) {
-    return  this.userRepository.findByEmail(email);
+    return this.userRepository.findByEmail(email);
+  }
+
+  async findByGoogleId(googleId) {
+    return this.userRepository.findByGoogleId(googleId);
   }
 
   async create({email, password}) {
     const hashedPassword = passwordUtils.generateHash(password);
     const newUser = new User({email, hashedPassword});
-    return  this.userRepository.create(newUser);
+    return this.userRepository.create(newUser);
   }
 
   async createGoogle({email, googleId}) {
+    let user = await this.userRepository.findByEmail(email);
+    if (user) {
+      user.googleId = googleId;
+      return this.userRepository.update(user);
+    }
     const newUser = new User({email, googleId});
     return this.userRepository.create(newUser);
   }
