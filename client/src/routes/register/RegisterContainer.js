@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Register from './Register';
 import authService from 'services/authService';
-import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
 import {useRouterContext} from 'contexts/router';
 import {pipe} from 'utils/func';
@@ -26,7 +25,6 @@ function useSubmitHandler({values, setLoading, setError}) {
       history.push('/login');
     } catch (error) {
       setLoading(false);
-      logger.error(error);
       handleErrors(error, setError);
     }
   };

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Login from './Login';
 import authService from 'services/authService';
-import logger from 'utils/logger';
 import {useInputsState} from 'utils/inputState';
 import {pipe} from 'utils/func';
 import {useAuthContext} from 'contexts/auth';
@@ -26,7 +25,6 @@ function useSubmitHandler({values, setLoading, setError}) {
       history.push('/');
     } catch (error) {
       setLoading(false);
-      logger.error(error);
       handleErrors(error, setError);
     }
   };
@@ -49,7 +47,7 @@ function useLoginInputState(setError) {
   const clearError = () => setError('');
   const handleLoginChange = pipe(handleChange, clearError);
 
-  return [values, handleLoginChange]
+  return [values, handleLoginChange];
 }
 
 function LoginContainer() {
