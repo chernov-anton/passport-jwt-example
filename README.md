@@ -24,7 +24,7 @@ but passport-token-google strategy require it in this format.
 
 ## User routes:
 
-### Register
+### Get user info
 url: GET `/users/:id`
 
 Require `Authoriztion: Bearer <token>` header.
