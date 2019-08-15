@@ -3,12 +3,12 @@ import GoogleLoginButton from './GoogleLoginButton';
 import authService from 'services/authService';
 import {useAuthContext} from 'contexts/auth';
 import {useRouterContext} from 'contexts/router';
+import logger from 'utils/logger';
 
 function useSuccessHandler() {
   const [, setAuthState] = useAuthContext();
   const {history} = useRouterContext();
   return async (resp) => {
-    console.log(resp);
     await authService.loginWithGoogle(resp.tokenId);
     const authInfo = authService.getAuthInfo();
     setAuthState(authInfo);
@@ -18,8 +18,8 @@ function useSuccessHandler() {
 
 function useErrorHandler() {
   return (resp) => {
-    console.log(resp);
-
+    // TODO implement proper error handling
+    logger.error(resp);
   };
 }
 

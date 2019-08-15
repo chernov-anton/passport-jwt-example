@@ -16,7 +16,7 @@ function useIsSetupComplete() {
     api.interceptors.request.use(request);
     api.interceptors.response.use(res => res, errorResponse(logout));
     setSetupStatus(true);
-  }, []);
+  }, [logout]);
 
   return isSetupComplete;
 }

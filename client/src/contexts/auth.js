@@ -28,12 +28,12 @@ function useLogout() {
   const [, setAuthState] = useAuthContext();
   const {history} = useRouterContext();
 
-  return () => {
+  return React.useCallback(() => {
     authService.logout();
     const authInfo = authService.getAuthInfo();
     setAuthState({authInfo});
     history.push('/login');
-  };
+  }, [history, setAuthState]);
 }
 
 function useIsLoggedIn() {

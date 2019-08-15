@@ -11,7 +11,6 @@ class AuthService {
   async loginWithGoogle(idToken) {
     const resp = await api.post('/auth/google', {access_token: idToken});
     storageService.setToken(resp.data.token);
-    console.log(resp.data.token);
   }
 
   register({email, password}) {

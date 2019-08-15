@@ -10,19 +10,27 @@ function useAsyncUserInfo() {
   const [userInfo, setUserInfo] = React.useState({});
 
   React.useEffect(() => {
+    let isMounted = true;
+
     async function fetchData() {
       setLoading(true);
       setError(false);
       try {
         const userInfo = await userService.get(authInfo.userId);
-        setUserInfo(userInfo);
-        setLoading(false);
+        if (isMounted) {
+          setUserInfo(userInfo);
+          setLoading(false);
+        }
       } catch (e) {
-        setError(true);
+        isMounted && setError(true);
       }
     }
 
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [authInfo.userId]);
 
   return {error, loading, userInfo};
