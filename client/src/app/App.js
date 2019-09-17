@@ -49,8 +49,6 @@ function errorResponse(logout) {
     logger.error(error);
     if (error.response.status === 401) {
       logout();
-
-      return;
     }
     return Promise.reject(error);
   };
